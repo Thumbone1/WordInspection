@@ -1,5 +1,4 @@
 
-
 package wordinspection;
 
 import java.io.File;
@@ -28,12 +27,60 @@ public class WordInspection {
     
     public List<String> wordsContainingZ() {
         List<String> zWords = new ArrayList<String>();
+        
         for (String s : words) {
-            if (s.contains("z") || s.contains("Z")) {
+            if (s.contains("z")) {
                 zWords.add(s);
             }
         }
+        
         return zWords;
+    }
+    
+    public List<String> wordsEndingInL() {
+        List<String> lWords = new ArrayList<String>();
+        
+        for (String s : words) {
+            if (s.charAt(s.length()-1) == 'l') {
+                lWords.add(s);
+            }
+        }
+        
+        return lWords;
+    }
+    
+    public List<String> palindromes() {
+        List<String> palindromes = new ArrayList<String>();
+        
+        for (String s : words) {
+            if (isPalindrom(s)) {
+                palindromes.add(s);
+            }
+        }
+        
+        return palindromes;        
+    }
+    
+    public List<String> wordsWhichContainAllVowels() {
+        List<String> vowelWords = new ArrayList<String>();
+        char[] vowels = {'a', 'e', 'i', 'o', 'u', 'y', 'ä', 'ö'};
+        
+        for (String s : words) {
+            char[] sChars = s.toCharArray();
+            
+        }
+        
+        return vowelWords;
+    }
+    
+    private boolean isPalindrom(String s) {
+        String reversed = "";
+        
+        for (int i = s.length() - 1; i >= 0; i--) {
+            reversed += s.charAt(i);
+        }
+        
+        return reversed.equals(s);
     }
     
     private List<String> makeWordsList() {
