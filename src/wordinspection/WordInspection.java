@@ -64,10 +64,24 @@ public class WordInspection {
     public List<String> wordsWhichContainAllVowels() {
         List<String> vowelWords = new ArrayList<String>();
         char[] vowels = {'a', 'e', 'i', 'o', 'u', 'y', 'ä', 'ö'};
+        String vowelString = "";
         
         for (String s : words) {
             char[] sChars = s.toCharArray();
-            
+            for (char vChar : vowels) {
+                for (char sChar : sChars) {
+                    if (sChar == vChar) {
+                        vowelString += vChar;
+                    }
+                }
+            }
+            /**
+             * check each letter in the string s. if the letter is a vowel  
+             * and that vowel has not been added to vowelsInWord then
+             * add that letter to the string vowelsInWord. 
+             * 
+             * 
+             */
         }
         
         return vowelWords;
