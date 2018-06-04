@@ -18,14 +18,17 @@ public class WordInspection {
     
     public WordInspection(File file) {
         this.file = file;
-        this.words = makeWordsList();
+        this.words = readFile();
+        System.out.println("setup complete!");
     }
     
     public int wordCount() {
+        System.out.println("wordCount()...");
         return words.size();
     }
     
     public List<String> wordsContainingZ() {
+        System.out.println("wordsContainingZ()...");
         List<String> zWords = new ArrayList<String>();
         
         for (String s : words) {
@@ -38,11 +41,13 @@ public class WordInspection {
     }
     
     public List<String> wordsEndingInL() {
+        System.out.println("wordsEndingInL()...");
         List<String> lWords = new ArrayList<String>();
         
         for (String s : words) {
-            if (s.charAt(s.length()-1) == 'l') {
+            if (s.endsWith("l")) {
                 lWords.add(s);
+                
             }
         }
         
@@ -50,6 +55,7 @@ public class WordInspection {
     }
     
     public List<String> palindromes() {
+        System.out.println("palindromes()...");
         List<String> palindromes = new ArrayList<String>();
         
         for (String s : words) {
@@ -61,30 +67,52 @@ public class WordInspection {
         return palindromes;        
     }
     
+    
     public List<String> wordsWhichContainAllVowels() {
+        System.out.println("wordsWhichContainAllVowels()...");
         List<String> vowelWords = new ArrayList<String>();
         char[] vowels = {'a', 'e', 'i', 'o', 'u', 'y', 'ä', 'ö'};
-        String vowelString = "";
         
         for (String s : words) {
             char[] sChars = s.toCharArray();
+            String vowelString = "";
             for (char vChar : vowels) {
                 for (char sChar : sChars) {
                     if (sChar == vChar) {
-                        vowelString += vChar;
+                        vowelString += vChar;  // adds chars to string in the order of aeiouyäö
                     }
                 }
+            }            
+            if (stringContainsAllVowels(vowelString)) {
+                vowelWords.add(s);
             }
-            /**
-             * check each letter in the string s. if the letter is a vowel  
-             * and that vowel has not been added to vowelsInWord then
-             * add that letter to the string vowelsInWord. 
-             * 
-             * 
-             */
         }
         
         return vowelWords;
+    }
+    
+    private boolean stringContainsAllVowels(String s) {
+        if (s.length() < 8 || s.equals("")) {
+            return false;
+        }
+        
+        String vowels = "aeiouyäö";
+        String checkString = removeRepeatingLetters(s);
+        
+        return vowels.equals(checkString);
+    }
+    
+    private String removeRepeatingLetters(String s) {
+        
+        String newString = "";
+        char[] sChars = s.toCharArray();
+        
+        for (char sChar : sChars) {
+            if (!newString.contains("" + sChar)) {
+                newString += sChar;
+            }
+        }
+        return newString;
     }
     
     private boolean isPalindrom(String s) {
@@ -97,24 +125,20 @@ public class WordInspection {
         return reversed.equals(s);
     }
     
-    private List<String> makeWordsList() {
-        return new ArrayList<String>(Arrays.asList(readFile().split("\n")));
-    }
-    
-    private String readFile() {
+    private List<String> readFile() {
+        List<String> wordList = new ArrayList<String>();
         try {
-            Scanner reader = new Scanner(file);
-            String s = "";
+            System.out.println("reading file...");
+            Scanner reader = new Scanner(file, "UTF-8");
             
             while (reader.hasNextLine()) {
-                s += reader.nextLine();
-                s += "\n";
+                wordList.add(reader.nextLine());                
             }
-            
-            return s;
+            reader.close();
+            return wordList;
             
         } catch (FileNotFoundException e) {
-            return "File not found! " + e.getMessage();
+            return wordList;
         }
         
         
